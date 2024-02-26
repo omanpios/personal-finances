@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 
-import { getUserByEmail } from "./modules/login.mjs";
+import { createUser, getUserByEmail } from "./modules/user.mjs";
 
 const app = express();
 const port = 8080;
@@ -38,6 +38,39 @@ app.post("/login", async (req, res) => {
           }
         }
       });
+    }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.post("/register", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await getUserByEmail(email);
+    if (user === null) {
+      try {
+        bcrypt.hash(password, saltRounds, async (error, hash) => {
+          if (error) {
+            console.error(error);
+            res.sendStatus(500);
+          } else {
+            try {
+              const newUser = await createUser(email, hash);
+              res.status(201).json({ id: newUser.id, email: newUser.email });
+            } catch (error) {
+              console.error(error);
+              res.sendStatus(500);
+            }
+          }
+        });
+      } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+      }
+    } else {
+      res.status(400).json({ message: "User already exits." });
     }
   } catch (error) {
     console.error(error);
