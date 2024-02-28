@@ -3,9 +3,12 @@
 import React, { useState } from "react";
 import Button from "./button";
 import Input from "./input";
+import { callApi } from "@/app/utils/utils";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
   const [emailAndPass, setEmailAndPass] = useState({ email: "", password: "" });
+  const router = useRouter();
 
   function handleOnChage(e) {
     const { value, name } = e.target;
@@ -14,9 +17,24 @@ export default function LoginForm() {
     });
   }
 
-  function handleClick(e) {
-    e.preventDefault();
-    console.log(emailAndPass);
+  async function handleOnClick() {
+    const { email, password } = emailAndPass;
+    try {
+      const response = await callApi("http://localhost:8080/login", "POST", {
+        email,
+        password,
+      });
+      const { status } = response;
+      if (status === 202) {
+        router.push("/category");
+        console.log("ok", response);
+      } else {
+        console.log("paila", await response.json());
+        //TODO: Red error message
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
@@ -37,7 +55,8 @@ export default function LoginForm() {
         placeholder="**********"
         value={emailAndPass.password}
       />
-      <Button onClick={handleClick} label="Sign Up" />
+      <p></p>
+      <Button onClick={handleOnClick} label="Sign Up" />
     </form>
   );
 }
