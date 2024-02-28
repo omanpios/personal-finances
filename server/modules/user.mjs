@@ -26,3 +26,15 @@ export async function createUser(email, password) {
   });
   return user;
 }
+
+export async function getUserById(userId) {
+  if (userId) {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+    return user;
+  }
+  return null;
+}
