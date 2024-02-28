@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
+import cors from "cors";
 
 import { createUser, getUserByEmail } from "./modules/user.mjs";
 
@@ -9,6 +10,7 @@ const port = 8080;
 const saltRounds = 10;
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.json({ message: "Hi!" });
