@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Button from "./button";
-import Input from "./input";
+import Button from "../common/button";
+import Input from "../common/input";
 import { callApi } from "@/app/utils/utils";
 import { useRouter } from "next/navigation";
 

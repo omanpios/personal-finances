@@ -3,7 +3,8 @@ import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import cors from "cors";
 
-import { createUser, getUserByEmail } from "./modules/user.mjs";
+import { createUser, getUserByEmail, getUserById } from "./modules/user.mjs";
+import { createCategory } from "./modules/category.mjs";
 
 const app = express();
 const port = 8080;
@@ -77,6 +78,28 @@ app.post("/register", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
+  }
+});
+
+app.post("/category", async (req, res) => {
+  const { name, userId } = req.body;
+  try {
+    const user = await getUserById(userId);
+    if (user === null) {
+      res.sendStatus(404);
+    } else {
+      const category = await createCategory(name, userId);
+      res.status(201).json(category);
+    }
+  } catch (error) {
+    if (error.code === "P2002") {
+      res
+        .status(409)
+        .json({ message: `${name} category already exists for user` });
+    } else {
+      console.error(error);
+      res.sendStatus(500);
+    }
   }
 });
 
