@@ -38,25 +38,27 @@ export default function LoginForm() {
   }
 
   return (
-    <form className="w-full max-w-sm">
-      <Input
-        onChange={handleOnChage}
-        label="email"
-        type="email"
-        name="email"
-        placeholder="youremail@example.com"
-        value={emailAndPass.email}
-      />
-      <Input
-        onChange={handleOnChage}
-        label="Password"
-        type="password"
-        name="password"
-        placeholder="**********"
-        value={emailAndPass.password}
-      />
-      <p></p>
-      <Button onClick={handleOnClick} label="Sign Up" />
-    </form>
+    <div className="h-screen flex items-center justify-center">
+      <form className="w-full max-w-sm">
+        <Input
+          onChange={handleOnChage}
+          label="email"
+          type="email"
+          name="email"
+          placeholder="youremail@example.com"
+          value={emailAndPass.email}
+        />
+        <Input
+          onChange={handleOnChage}
+          label="Password"
+          type="password"
+          name="password"
+          placeholder="**********"
+          value={emailAndPass.password}
+        />
+        <p></p>
+        <Button onClick={handleOnClick} label="Sign Up" />
+      </form>
+    </div>
   );
 }
