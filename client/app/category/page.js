@@ -1,11 +1,24 @@
 "use client";
 import CategoryForm from "../components/category/category-form";
 import CategoryCard from "../components/category/category-card";
+import { useEffect, useState } from "react";
+import { getData } from "../utils/utils";
 
 export default function Category() {
-  const categories = [
-    { name: "apartment", monthlyProvision: 7535900, balance: 14800293 },
-  ];
+  const userId = 6;
+
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    async function getCategories() {
+      const response = await getData(
+        `http://localhost:8080/user/${userId}/categories`
+      );
+      const categories = await response.json();
+      setCategories(categories);
+    }
+    getCategories();
+  }, []);
 
   return (
     <>
