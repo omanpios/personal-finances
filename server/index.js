@@ -89,7 +89,6 @@ app.post("/category", async (req, res) => {
       res.sendStatus(404);
     } else {
       const category = await createCategory(name, userId);
-      console.log(category.json());
       res.status(201).json(category);
     }
   } catch (error) {
