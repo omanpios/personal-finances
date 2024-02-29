@@ -11,3 +11,10 @@ export async function createCategory(categoryName, userId) {
     },
   });
 }
+
+export async function readCategoriesByUserId(userId) {
+  return await prisma.category.findMany({
+    where: { userId },
+    include: { subcategories: true },
+  });
+}

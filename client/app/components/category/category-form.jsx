@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Input from "../common/input";
 import Button from "../common/button";
-import { callApi } from "@/app/utils/utils";
+import { postData } from "@/app/utils/utils";
 import Head from "next/head";
 
 export default function CategoryForm() {
@@ -19,15 +19,17 @@ export default function CategoryForm() {
   async function submitCategory(e) {
     e.preventDefault();
     const { name, userId } = category;
-    await callApi("http://localhost:8080/category", "POST", {
+    await postData("http://localhost:8080/category", "POST", {
       name,
       userId: parseInt(userId),
     });
   }
 
   return (
-    <form className="w-full max-w-sm">
-      <Head>Create a new category</Head>
+    <form className="w-full max-w-sm p-7">
+      <h1 className=" text-gray-700 font-bold md:text-right mb-1 md:mb-0 p-3">
+        Create a new category
+      </h1>
       <Input
         label="Name"
         type="text"

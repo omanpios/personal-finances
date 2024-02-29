@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Button from "../common/button";
 import Input from "../common/input";
-import { callApi } from "@/app/utils/utils";
+import { postData } from "@/app/utils/utils";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
@@ -20,7 +20,7 @@ export default function LoginForm() {
   async function handleOnClick() {
     const { email, password } = emailAndPass;
     try {
-      const response = await callApi("http://localhost:8080/login", "POST", {
+      const response = await postData("http://localhost:8080/login", "POST", {
         email,
         password,
       });

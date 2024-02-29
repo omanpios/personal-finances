@@ -4,7 +4,7 @@ import bcrypt from "bcrypt";
 import cors from "cors";
 
 import { createUser, getUserByEmail, getUserById } from "./modules/user.mjs";
-import { createCategory } from "./modules/category.mjs";
+import { createCategory, readCategoriesByUserId } from "./modules/category.mjs";
 
 const app = express();
 const port = 8080;
@@ -100,6 +100,23 @@ app.post("/category", async (req, res) => {
       console.error(error);
       res.sendStatus(500);
     }
+  }
+});
+
+app.get("/user/:id/categories", async (req, res) => {
+  const { id } = req.params;
+  const formattedUserID = parseInt(id);
+  try {
+    const user = await getUserById(formattedUserID);
+    if (user === null) {
+      res.sendStatus(404);
+    } else {
+      const categories = await readCategoriesByUserId(formattedUserID);
+      res.json(categories);
+    }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
   }
 });
 
