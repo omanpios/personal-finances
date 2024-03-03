@@ -1,4 +1,4 @@
-import Button from "../common/button";
+import Link from "next/link";
 
 export default function CategoryCard({
   categoryName,
@@ -18,9 +18,12 @@ export default function CategoryCard({
             <div className="bg-purple-500 w-0 h-full rounded-lg shadow-md"></div>
           </div>
         </div>
-        <button className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded">
+        <Link
+          href={`/categories/${categoryName}`}
+          className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+        >
           Subcategories
-        </button>
+        </Link>
       </div>
     </div>
   );
