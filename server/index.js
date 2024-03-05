@@ -33,7 +33,7 @@ app.post("/login", async (req, res) => {
           res.sendStatus(500);
         } else {
           if (result) {
-            res.sendStatus(202);
+            res.status(202).json({ userId: user.id });
           } else {
             res
               .status(401)
