@@ -1,4 +1,6 @@
+import { CategoryContext } from "@/app/contexts/CategoryContext";
 import Link from "next/link";
+import { useContext } from "react";
 
 export default function CategoryCard({
   categoryName,
@@ -6,6 +8,9 @@ export default function CategoryCard({
   balance,
   id,
 }) {
+  const { setCategoryId } = useContext(CategoryContext);
+  setCategoryId(id);
+
   return (
     <div className="p-5" id={id}>
       <div className="bg-white p-5 rounded-lg shadow-md">
