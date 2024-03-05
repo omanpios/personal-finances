@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Button from "../common/button";
 import Input from "../common/input";
 import { postData } from "@/app/utils/utils";
 import { useRouter } from "next/navigation";
+import { UserContext } from "../../contexts/UserContext";
 
 export default function LoginForm() {
   const [emailAndPass, setEmailAndPass] = useState({ email: "", password: "" });
+  const { setUserId } = useContext(UserContext);
   const router = useRouter();
-
   function handleOnChage(e) {
     const { value, name } = e.target;
     setEmailAndPass((prevEmailAndPass) => {
@@ -25,9 +26,11 @@ export default function LoginForm() {
         password,
       });
       const { status } = response;
+      const jsonResponse = await response.json();
+      setUserId(jsonResponse.userId);
+
       if (status === 202) {
-        router.push("/category");
-        console.log("ok", response);
+        router.push("/categories");
       } else {
         console.log("paila", await response.json());
         //TODO: Red error message

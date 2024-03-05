@@ -1,27 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Input from "../common/input";
 import Button from "../common/button";
 import { postData } from "@/app/utils/utils";
-import Head from "next/head";
+import { UserContext } from "@/app/contexts/UserContext";
 
 export default function CategoryForm() {
-  const [category, setCategory] = useState({ name: "", userId: 6 });
+  const [categoryName, setCategoryName] = useState("");
+  const { userId } = useContext(UserContext);
 
   function handleOnChange(e) {
-    const { name, value } = e.target;
-    setCategory((prevValue) => {
-      return { ...prevValue, [name]: value };
-    });
+    const { value } = e.target;
+    setCategoryName(value);
   }
 
   async function submitCategory(e) {
     e.preventDefault();
-    const { name, userId } = category;
     await postData("http://localhost:8080/category", "POST", {
-      name,
-      userId: parseInt(userId),
+      name: categoryName,
+      userId,
     });
   }
 
@@ -35,15 +33,7 @@ export default function CategoryForm() {
         type="text"
         placeholder="Apartment expenses"
         name="name"
-        value={category.name}
-        onChange={handleOnChange}
-      />
-      <Input
-        label="User"
-        type="number"
-        placeholder="6"
-        name="userId"
-        value={category.userId}
+        value={categoryName}
         onChange={handleOnChange}
       />
       <Button label="Create Category" onClick={submitCategory} />

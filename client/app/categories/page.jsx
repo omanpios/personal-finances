@@ -1,12 +1,12 @@
 "use client";
 import CategoryForm from "../components/category/category-form";
 import CategoryCard from "../components/category/category-card";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { getData } from "../utils/utils";
+import { UserContext } from "../contexts/UserContext";
 
 export default function Category() {
-  const userId = 6;
-
+  const { userId } = useContext(UserContext);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -30,6 +30,7 @@ export default function Category() {
             categoryName={category.name}
             monthlyProvision={category.monthlyProvision}
             balance={category.balance}
+            id={category.id}
           />
         ))}
       </div>
