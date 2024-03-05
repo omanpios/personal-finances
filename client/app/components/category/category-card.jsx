@@ -4,11 +4,12 @@ export default function CategoryCard({
   categoryName,
   monthlyProvision,
   balance,
+  id,
 }) {
   return (
-    <div className="p-5">
+    <div className="p-5" id={id}>
       <div className="bg-white p-5 rounded-lg shadow-md">
-        <h1 className="text-xl font-bold">{categoryName}</h1>
+        <h1 className="text-xl font-bold capitalize">{categoryName}</h1>
         <div className="mt-4 mb-10">
           <p className="text-gray-600">
             Monthly provision: ${monthlyProvision}
@@ -22,7 +23,7 @@ export default function CategoryCard({
           href={`/categories/${categoryName}`}
           className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
-          Subcategories
+          View Details
         </Link>
       </div>
     </div>
