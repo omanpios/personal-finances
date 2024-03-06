@@ -5,6 +5,11 @@ import cors from "cors";
 
 import { createUser, getUserByEmail, getUserById } from "./modules/user.mjs";
 import { createCategory, readCategoriesByUserId } from "./modules/category.mjs";
+import {
+  createSubcategory,
+  getSubcategoriesByCategoryId,
+  getSubcategory,
+} from "./modules/subcategory.mjs";
 
 const app = express();
 const port = 8080;
@@ -114,6 +119,53 @@ app.get("/user/:id/categories", async (req, res) => {
       const categories = await readCategoriesByUserId(formattedUserID);
       res.json(categories);
     }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.post("/subcategory", async (req, res) => {
+  const subcategory = req.body;
+  try {
+    const response = await getSubcategory({
+      name: subcategory.name,
+      userId: subcategory.userId,
+    });
+    if (response === null) {
+      const newSubcategory = await createSubcategory(subcategory);
+      res.status(201).json(newSubcategory);
+    } else {
+      res
+        .status(400)
+        .json({ error: `Subcategory '${subcategory.name}' already exists` });
+    }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/subcategory", async (req, res) => {
+  const data = req.query;
+  try {
+    const subcategory = await getSubcategory(data);
+    if (subcategory === null) {
+      res.sendStatus(404);
+    } else {
+      res.json(subcategory);
+    }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/category/:id/subcategories", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const subcategories = await getSubcategoriesByCategoryId(id);
+    res.json(subcategories);
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
