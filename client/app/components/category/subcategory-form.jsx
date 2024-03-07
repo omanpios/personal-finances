@@ -3,6 +3,10 @@ import Button from "../common/button";
 import Input from "../common/input";
 import { UserContext } from "@/app/contexts/UserContext";
 import { CategoryContext } from "@/app/contexts/CategoryContext";
+import { postData } from "@/app/utils/utils";
+import env from "dotenv";
+
+env.config();
 
 export default function SubcategoryForm() {
   const { userId } = useContext(UserContext);
@@ -19,12 +23,27 @@ export default function SubcategoryForm() {
     });
   }
 
-  function submitSubcategory(e) {
-    e.preventDefault();
+  async function submitSubcategory() {
     subcategory.categoryId = categoryId;
     subcategory.userId = userId;
-    console.log(subcategory);
-    console.log(categoryId);
+    const response = await postData(
+      "http://localhost:8080/subcategory",
+      "POST",
+      {
+        ...subcategory,
+        categoryId,
+        userId,
+      }
+    );
+    if (response.status === 400) {
+      const { error } = await response.json();
+      console.log(error);
+      alert(error);
+    }
+    setSubcategory({
+      name: "",
+      monthlyProvision: 0,
+    });
   }
 
   return (
