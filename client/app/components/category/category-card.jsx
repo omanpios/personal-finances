@@ -9,7 +9,9 @@ export default function CategoryCard({
   id,
 }) {
   const { setCategoryId } = useContext(CategoryContext);
-  setCategoryId(id);
+  function handleOnClick() {
+    setCategoryId(id);
+  }
 
   return (
     <div className="p-5" id={id}>
@@ -26,6 +28,7 @@ export default function CategoryCard({
         </div>
         <Link
           href={`/categories/${categoryName}`}
+          onClick={handleOnClick}
           className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
           View Details
