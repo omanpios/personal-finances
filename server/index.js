@@ -130,7 +130,7 @@ app.post("/subcategory", async (req, res) => {
   try {
     const response = await getSubcategory({
       name: subcategory.name,
-      userId: subcategory.userId,
+      categoryId: subcategory.categoryId,
     });
     if (response === null) {
       const newSubcategory = await createSubcategory(subcategory);
@@ -165,7 +165,11 @@ app.get("/category/:id/subcategories", async (req, res) => {
   const { id } = req.params;
   try {
     const subcategories = await getSubcategoriesByCategoryId(id);
-    res.json(subcategories);
+    const totalProvision = subcategories.reduce((acc, subcategory) => {
+      return acc + subcategory.monthlyProvision;
+    }, 0);
+    const count = subcategories.length;
+    res.json({ subcategories, totalProvision, count });
   } catch (error) {
     console.error(error);
     res.sendStatus(500);

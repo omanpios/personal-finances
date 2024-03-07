@@ -9,23 +9,24 @@ export async function createSubcategory({
   userId,
 }) {
   const formattedName = name.toLowerCase();
+  const formattedProvision = parseFloat(monthlyProvision);
   return await prisma.subcategory.create({
     data: {
       name: formattedName,
-      monthlyProvision,
+      monthlyProvision: formattedProvision,
       categoryId,
       userId,
     },
   });
 }
 
-export async function getSubcategory(data = { name: null, userId: null }) {
+export async function getSubcategory(data = { name, categoryId }) {
   const formattedName = data.name.toLowerCase();
-  const formattedUserId = parseInt(data.userId);
+  const formattedCategoryId = parseInt(data.categoryId);
   return await prisma.subcategory.findFirst({
     where: {
       name: formattedName,
-      userId: formattedUserId,
+      categoryId: formattedCategoryId,
     },
   });
 }
