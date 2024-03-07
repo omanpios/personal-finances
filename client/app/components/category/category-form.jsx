@@ -16,11 +16,11 @@ export default function CategoryForm() {
   }
 
   async function submitCategory(e) {
-    e.preventDefault();
     await postData("http://localhost:8080/category", "POST", {
       name: categoryName,
       userId,
     });
+    setCategoryName("");
   }
 
   return (

@@ -1,4 +1,6 @@
+import { CategoryContext } from "@/app/contexts/CategoryContext";
 import Link from "next/link";
+import { useContext } from "react";
 
 export default function CategoryCard({
   categoryName,
@@ -6,6 +8,11 @@ export default function CategoryCard({
   balance,
   id,
 }) {
+  const { setCategoryId } = useContext(CategoryContext);
+  function handleOnClick() {
+    setCategoryId(id);
+  }
+
   return (
     <div className="p-5" id={id}>
       <div className="bg-white p-5 rounded-lg shadow-md">
@@ -21,6 +28,7 @@ export default function CategoryCard({
         </div>
         <Link
           href={`/categories/${categoryName}`}
+          onClick={handleOnClick}
           className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
         >
           View Details
