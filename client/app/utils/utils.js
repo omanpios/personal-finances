@@ -18,3 +18,7 @@ export async function getData(url = "", method = "GET") {
   });
   return response;
 }
+export let currency = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
