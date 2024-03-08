@@ -1,4 +1,5 @@
 import { currency } from "@/app/utils/utils";
+import Link from "next/link";
 
 export default function SubcategoryCard({ id, name, monthlyProvision }) {
   const balance = 0;
@@ -23,6 +24,13 @@ export default function SubcategoryCard({ id, name, monthlyProvision }) {
             ></div>
           </div>
         </div>
+        <Link
+          href={`/transactions`}
+          // onClick={handleOnClick}
+          className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+        >
+          Add transaction
+        </Link>
       </div>
     </div>
   );
