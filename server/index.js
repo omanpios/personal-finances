@@ -9,7 +9,14 @@ import {
   createSubcategory,
   getSubcategoriesByCategoryId,
   getSubcategory,
+  getSubcategoryBySubcategoryAndUserId,
 } from "./modules/subcategory.mjs";
+import {
+  createTransaction,
+  getTransactionsByCategoryId,
+  getTransactionsBySubcategoryId,
+  getTransactionsByUserId,
+} from "./modules/transaction.mjs";
 
 const app = express();
 const port = 8080;
@@ -170,6 +177,64 @@ app.get("/category/:id/subcategories", async (req, res) => {
     }, 0);
     const count = subcategories.length;
     res.json({ subcategories, totalProvision, count });
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.post("/transaction", async (req, res) => {
+  const data = req.body;
+  console.log(data);
+  try {
+    const response = await getSubcategoryBySubcategoryAndUserId(
+      data.subcategoryId,
+      data.userId
+    );
+    if (response === null) {
+      res.status(409).json({ error: "Subcategory does not belong to userId" });
+    } else {
+      try {
+        const transaction = await createTransaction(data);
+        res.status(201).json(transaction);
+      } catch (error) {
+        console.error(error);
+        res.sendStatus(500);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/subcategory/:id/transactions", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await getTransactionsBySubcategoryId(id);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/user/:id/transactions", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await getTransactionsByUserId(id);
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/category/:id/transactions", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const response = await getTransactionsByCategoryId(id);
+    res.json(response);
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
