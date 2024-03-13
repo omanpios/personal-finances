@@ -53,15 +53,3 @@ export async function getTransactionsByUserId(userId) {
     transactions,
   };
 }
-
-export async function getTransactionsByCategoryId(categoryId) {
-  const id = parseInt(categoryId);
-  const subcategories = await prisma.category.findFirst({
-    where: {
-      id,
-    },
-    include: { subcategories: { select: { transactions: true } } },
-  });
-
-  return subcategories;
-}
