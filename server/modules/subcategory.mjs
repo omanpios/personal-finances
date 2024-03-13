@@ -39,3 +39,14 @@ export async function getSubcategoriesByCategoryId(id) {
     },
   });
 }
+
+export async function getSubcategoryBySubcategoryAndUserId(
+  subcategoryId,
+  userId
+) {
+  const formattedUserID = parseInt(userId);
+  const formattedSubcategoryId = parseInt(subcategoryId);
+  return await prisma.subcategory.findFirst({
+    where: { id: formattedSubcategoryId, userId: formattedUserID },
+  });
+}
