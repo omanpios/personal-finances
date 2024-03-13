@@ -13,7 +13,6 @@ import {
 } from "./modules/subcategory.mjs";
 import {
   createTransaction,
-  getTransactionsByCategoryId,
   getTransactionsBySubcategoryId,
   getTransactionsByUserId,
 } from "./modules/transaction.mjs";
@@ -223,17 +222,6 @@ app.get("/user/:id/transactions", async (req, res) => {
   const { id } = req.params;
   try {
     const response = await getTransactionsByUserId(id);
-    res.json(response);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
-});
-
-app.get("/category/:id/transactions", async (req, res) => {
-  const { id } = req.params;
-  try {
-    const response = await getTransactionsByCategoryId(id);
     res.json(response);
   } catch (error) {
     console.error(error);
