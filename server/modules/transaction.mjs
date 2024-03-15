@@ -9,15 +9,19 @@ export async function createTransaction({
   userId,
   date,
 }) {
-  return await prisma.transaction.create({
-    data: {
-      description: description,
-      amount: amount,
-      subcategoryId: subcategoryId,
-      userId: userId,
-      date: date,
-    },
-  });
+  if (amount === 0 || description === "") {
+    return { error: "Required values missing" };
+  } else {
+    return await prisma.transaction.create({
+      data: {
+        description: description,
+        amount: parseFloat(amount),
+        subcategoryId: subcategoryId,
+        userId: userId,
+        date: date,
+      },
+    });
+  }
 }
 
 export async function getTransactionsBySubcategoryId(subcategoryId) {
