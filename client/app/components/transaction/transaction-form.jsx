@@ -13,9 +13,6 @@ import {
 
 export function TransactionForm() {
   const [transactionType, setTransactionType] = useState();
-  function handleRadioButtons(e) {
-    console.log(e.target.name);
-  }
   const { userId } = useContext(UserContext);
   const { subcategoryId } = useContext(SubcategoryContext);
   const [transaction, setTransaction] = useState({
@@ -46,7 +43,6 @@ export function TransactionForm() {
       newTransaction
     );
     setTransaction({ description: "", amount: 0 });
-    console.log(await response.json());
   }
 
   return (
