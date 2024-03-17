@@ -61,7 +61,7 @@ export function TransactionForm() {
             label="Income"
             value=""
             id="1"
-            onClick={handleRadioButtons}
+            // onClick={handleRadioButtons}
             name="income"
             defaultChecked={true}
           />
@@ -70,7 +70,7 @@ export function TransactionForm() {
             value=""
             id="2"
             name="expense"
-            onClick={handleRadioButtons}
+            // onClick={handleRadioButtons}
             defaultChecked={false}
           />
         </form>
