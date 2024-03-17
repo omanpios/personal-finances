@@ -48,5 +48,6 @@ export async function getSubcategoryBySubcategoryAndUserId(
   const formattedSubcategoryId = parseInt(subcategoryId);
   return await prisma.subcategory.findFirst({
     where: { id: formattedSubcategoryId, userId: formattedUserID },
+    include: { transactions: true },
   });
 }
