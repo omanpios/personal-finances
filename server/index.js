@@ -123,6 +123,15 @@ app.get("/user/:id/categories", async (req, res) => {
       res.sendStatus(404);
     } else {
       const categories = await readCategoriesByUserId(formattedUserID);
+      categories.forEach((category) => {
+        const monthlyProvision = category.subcategories.reduce(
+          (acc, subcategory) => {
+            return acc + subcategory.monthlyProvision;
+          },
+          0
+        );
+        category.monthlyProvision = monthlyProvision;
+      });
       res.json(categories);
     }
   } catch (error) {

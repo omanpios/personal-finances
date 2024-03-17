@@ -1,4 +1,5 @@
 import { CategoryContext } from "@/app/contexts/CategoryContext";
+import { currency } from "@/app/utils/utils";
 import Link from "next/link";
 import { useContext } from "react";
 
@@ -19,7 +20,7 @@ export default function CategoryCard({
         <h1 className="text-xl font-bold capitalize">{categoryName}</h1>
         <div className="mt-4 mb-10">
           <p className="text-gray-600">
-            Monthly provision: ${monthlyProvision}
+            Monthly provision: {currency.format(monthlyProvision)}
           </p>
           <p className="text-gray-600">Balance: ${balance}</p>
           <div className="bg-gray-400 w-64 h-3 rounded-lg mt-2 overflow-hidden">
