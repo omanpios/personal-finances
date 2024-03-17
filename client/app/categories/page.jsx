@@ -2,7 +2,7 @@
 import CategoryForm from "../components/category/category-form";
 import CategoryCard from "../components/category/category-card";
 import { useContext, useEffect, useState } from "react";
-import { getData } from "../utils/utils";
+import { currency, getData } from "../utils/utils";
 import { UserContext } from "../contexts/UserContext";
 
 export default function Category() {
