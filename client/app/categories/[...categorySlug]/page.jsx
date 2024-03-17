@@ -17,7 +17,6 @@ export default function CategoryPage({ params }) {
 
   useEffect(() => {
     async function getSubcategories() {
-      console.log("category", categoryId);
       const response = await getData(
         `http://localhost:8080/category/${categoryId}/subcategories`
       );

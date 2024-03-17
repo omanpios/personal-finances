@@ -184,7 +184,6 @@ app.get("/category/:id/subcategories", async (req, res) => {
 
 app.post("/transaction", async (req, res) => {
   const data = req.body;
-  console.log(data);
   try {
     const response = await getSubcategoryBySubcategoryAndUserId(
       data.subcategoryId,
