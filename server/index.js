@@ -4,7 +4,11 @@ import bcrypt from "bcrypt";
 import cors from "cors";
 
 import { createUser, getUserByEmail, getUserById } from "./modules/user.mjs";
-import { createCategory, readCategoriesByUserId } from "./modules/category.mjs";
+import {
+  createCategory,
+  getBalanceByCategoryId,
+  readCategoriesByUserId,
+} from "./modules/category.mjs";
 import {
   createSubcategory,
   getSubcategoriesByCategoryId,
@@ -231,6 +235,17 @@ app.get("/user/:id/transactions", async (req, res) => {
   try {
     const response = await getTransactionsByUserId(id);
     res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/category/:id/balance", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const balance = await getBalanceByCategoryId(id);
+    res.json(balance);
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
