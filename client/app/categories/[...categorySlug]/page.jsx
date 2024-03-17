@@ -14,6 +14,7 @@ export default function CategoryPage({ params }) {
   const [subcategories, setSubcategories] = useState([]);
   const [totalProvision, setTotalProvision] = useState(0);
   const { categoryId } = useContext(CategoryContext);
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
     async function getSubcategories() {
@@ -25,7 +26,15 @@ export default function CategoryPage({ params }) {
       setSubcategories(subcategories);
       setTotalProvision(totalProvision);
     }
+    async function getBalance() {
+      const response = await getData(
+        `http://localhost:8080/category/${categoryId}/balance`
+      );
+      const { balance } = await response.json();
+      setBalance(balance);
+    }
     getSubcategories();
+    getBalance();
   }, []);
 
   return (
@@ -34,7 +43,7 @@ export default function CategoryPage({ params }) {
         <div className="flex flex-col items-center p-10">
           <h1 className="text-2xl font-semibold uppercase pb-5">{slug}</h1>
           <h2>Provision: {currency.format(totalProvision)}</h2>
-          <h2>Current balance: </h2>
+          <h2>Current balance: {currency.format(balance)} </h2>
         </div>
       </header>
       <main>

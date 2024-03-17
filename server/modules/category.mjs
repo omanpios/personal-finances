@@ -18,3 +18,17 @@ export async function readCategoriesByUserId(userId) {
     include: { subcategories: true },
   });
 }
+
+export async function getBalanceByCategoryId(categoryId) {
+  const id = parseInt(categoryId);
+  const response = await prisma.$queryRaw`
+  SELECT SUM(amount) AS "balance"
+  FROM "Transaction"
+  JOIN "Subcategory" ON "Transaction"."subcategoryId" = "Subcategory".id
+  WHERE "Subcategory"."categoryId" = ${id}`;
+  if (response[0].balance === null) {
+    return { balance: 0 };
+  } else {
+    return response[0];
+  }
+}
