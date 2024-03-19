@@ -1,10 +1,19 @@
 import { SubcategoryContext } from "@/app/contexts/SubcategoryContext";
+import { getSubcategoryBalance } from "@/app/utils/actions";
 import { currency } from "@/app/utils/utils";
 import Link from "next/link";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 export default function SubcategoryCard({ id, name, monthlyProvision }) {
-  const balance = 0;
+  const [balance, setBalance] = useState(0);
+  useEffect(() => {
+    async function getBalance() {
+      const balance = await getSubcategoryBalance(id);
+      setBalance(balance);
+    }
+    getBalance();
+  }, []);
+  console.log("balance", balance);
   const percentage = (balance / monthlyProvision) * 100;
 
   const { setSubcategoryId } = useContext(SubcategoryContext);
