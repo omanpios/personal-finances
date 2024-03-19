@@ -5,9 +5,6 @@ import SubcategoryForm from "@/app/components/category/subcategory-form";
 import { CategoryContext } from "@/app/contexts/CategoryContext";
 import { currency, getData } from "@/app/utils/utils";
 import { useContext, useEffect, useState } from "react";
-import env from "dotenv";
-
-env.config();
 
 export default function CategoryPage({ params }) {
   const slug = params.categorySlug;
