@@ -4,7 +4,13 @@ import { currency } from "@/app/utils/utils";
 import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 
-export default function SubcategoryCard({ id, name, monthlyProvision }) {
+export default function SubcategoryCard({
+  id,
+  name,
+  monthlyProvision,
+  budget,
+  frequency,
+}) {
   const [balance, setBalance] = useState(0);
   useEffect(() => {
     async function getBalance() {
@@ -13,8 +19,7 @@ export default function SubcategoryCard({ id, name, monthlyProvision }) {
     }
     getBalance();
   }, []);
-  console.log("balance", balance);
-  const percentage = (balance / monthlyProvision) * 100;
+  const percentage = (balance / budget) * 100;
 
   const { setSubcategoryId } = useContext(SubcategoryContext);
   function handleOnClick() {
@@ -24,15 +29,26 @@ export default function SubcategoryCard({ id, name, monthlyProvision }) {
   const style = {
     width: `${percentage}%`,
   };
+
   return (
     <div className="p-5" id={id}>
       <div className="bg-white p-5 rounded-lg shadow-md">
-        <h1 className="text-xl font-bold capitalize">{name}</h1>
+        <h1 className="text-xl font-bold text-center uppercase">{name}</h1>
+        <p className="text-xs text-center">
+          <span className="capitalize">
+            {frequency.replace("_", " ").toLowerCase()}
+          </span>{" "}
+          expense: {currency.format(budget)}
+        </p>
         <div className="mt-4 mb-10">
           <p className="text-gray-600">
-            Monthly provision: {currency.format(monthlyProvision)}
+            <span className="font-bold">Monthly provision:</span>{" "}
+            {currency.format(monthlyProvision)}
           </p>
-          <p className="text-gray-600">Balance: {currency.format(balance)}</p>
+          <p className="text-gray-600">
+            <span className="font-bold">Balance:</span>{" "}
+            {currency.format(balance)}
+          </p>
           <div className="bg-gray-400 w-64 h-3 rounded-lg mt-2 overflow-hidden">
             <div
               className="bg-purple-500 h-full rounded-lg shadow-md"
