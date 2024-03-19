@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 function calculateMonthlyProvision(amount, frequency) {
   switch (frequency) {
     case "MONTHLY":
-      return amount.toFixed(2);
+      return parseFloat((amount / 1).toFixed(2));
     case "QUARTERLY":
       return parseFloat((amount / 3).toFixed(2));
     case "HALF_YEARLY":
@@ -27,7 +27,6 @@ export async function createSubcategory({
   const monthlyProvision = calculateMonthlyProvision(amount, frequency);
 
   const formattedName = name.toLowerCase();
-  const formattedAmount = parseFloat(amount.toFixed(2));
 
   return await prisma.subcategory.create({
     data: {
@@ -36,7 +35,7 @@ export async function createSubcategory({
       categoryId,
       userId,
       frequency,
-      budget: amount,
+      budget: parseFloat(amount),
     },
   });
 }

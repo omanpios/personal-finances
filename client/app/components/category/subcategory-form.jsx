@@ -4,17 +4,16 @@ import Input from "../common/input";
 import { UserContext } from "@/app/contexts/UserContext";
 import { CategoryContext } from "@/app/contexts/CategoryContext";
 import { postData } from "@/app/utils/utils";
-import env from "dotenv";
-
-env.config();
+import DropdownList from "../common/dropdown";
 
 export default function SubcategoryForm() {
   const { userId } = useContext(UserContext);
   const { categoryId } = useContext(CategoryContext);
+  const [frequency, setFrequency] = useState("MONTHLY");
   const [subcategory, setSubcategory] = useState({
     name: "",
     amount: 0,
-    frequency: "",
+    frequency: "MONTHLY",
   });
 
   function handleOnChange(e) {
@@ -24,9 +23,16 @@ export default function SubcategoryForm() {
     });
   }
 
+  function handleDropdown(e) {
+    const { value } = e.target;
+    const formattedValue = value.replace(" ", "_").toUpperCase();
+    setFrequency(formattedValue);
+  }
+
   async function submitSubcategory() {
     subcategory.categoryId = categoryId;
     subcategory.userId = userId;
+    subcategory.frequency = frequency;
     const response = await postData(
       "http://localhost:8080/subcategory",
       "POST",
@@ -34,6 +40,7 @@ export default function SubcategoryForm() {
         ...subcategory,
         categoryId,
         userId,
+        frequency,
       }
     );
     if (response.status === 400) {
@@ -43,7 +50,7 @@ export default function SubcategoryForm() {
     }
     setSubcategory({
       name: "",
-      monthlyProvision: 0,
+      amount: 0,
     });
   }
 
@@ -63,10 +70,15 @@ export default function SubcategoryForm() {
       <Input
         label="Amount"
         type="number"
-        placeholder="Energy bill"
-        name="monthlyProvision"
+        placeholder="150.000"
+        name="amount"
         value={subcategory.monthlyProvision}
         onChange={handleOnChange}
+      />
+      <DropdownList
+        label="Frequency"
+        options={["Monthly", "Quarterly", "Half yearly", "Yearly"]}
+        handleDropdown={handleDropdown}
       />
       <Button label="Create Subcategory" onClick={submitSubcategory} />
     </form>
