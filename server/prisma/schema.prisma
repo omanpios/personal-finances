@@ -33,6 +33,8 @@ model Subcategory {
   categoryId       Int
   name             String
   monthlyProvision Float
+  budget           Float
+  frequency        Frequency     @default(MONTHLY)
   category         Category      @relation(fields: [categoryId], references: [id])
   transactions     Transaction[]
   User             User          @relation(fields: [userId], references: [id])
@@ -40,6 +42,13 @@ model Subcategory {
 
   @@unique([categoryId, name], name: "UniqueSubcategoryNamePerCategory")
   @@index([id])
+}
+
+enum Frequency {
+  MONTHLY
+  QUARTERLY
+  HALF_YEARLY
+  YEARLY
 }
 
 model Transaction {
