@@ -57,3 +57,16 @@ export async function getTransactionsByUserId(userId) {
     transactions,
   };
 }
+
+export async function getBalanceBySubcategoryId(subcategoryId) {
+  const id = parseInt(subcategoryId);
+  const response = await prisma.transaction.aggregate({
+    _sum: { amount: true },
+    where: { subcategoryId: id },
+  });
+  if (response._sum.amount === null) {
+    return 0;
+  } else {
+    return response._sum.amount;
+  }
+}

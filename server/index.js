@@ -17,6 +17,7 @@ import {
 } from "./modules/subcategory.mjs";
 import {
   createTransaction,
+  getBalanceBySubcategoryId,
   getTransactionsBySubcategoryId,
   getTransactionsByUserId,
 } from "./modules/transaction.mjs";
@@ -246,6 +247,17 @@ app.get("/category/:id/balance", async (req, res) => {
   try {
     const balance = await getBalanceByCategoryId(id);
     res.json(balance);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/subcategory/:id/balance", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const balance = await getBalanceBySubcategoryId(id);
+    res.json({ balance });
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
