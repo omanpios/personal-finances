@@ -67,6 +67,8 @@ export default function CategoryPage({ params }) {
               id={subcategory.id}
               name={subcategory.name}
               monthlyProvision={subcategory.monthlyProvision}
+              budget={subcategory.budget}
+              frequency={subcategory.frequency}
             />
           ))}
         </div>
