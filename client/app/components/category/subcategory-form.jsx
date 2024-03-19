@@ -13,7 +13,8 @@ export default function SubcategoryForm() {
   const { categoryId } = useContext(CategoryContext);
   const [subcategory, setSubcategory] = useState({
     name: "",
-    monthlyProvision: 0,
+    amount: 0,
+    frequency: "",
   });
 
   function handleOnChange(e) {
@@ -60,7 +61,7 @@ export default function SubcategoryForm() {
         onChange={handleOnChange}
       />
       <Input
-        label="Monthly provision"
+        label="Amount"
         type="number"
         placeholder="Energy bill"
         name="monthlyProvision"
