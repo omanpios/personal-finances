@@ -7,6 +7,7 @@ export default function Input({
   name,
   value,
   onChange,
+  errorMessage,
 }) {
   return (
     <div className="md:flex md:items-center mb-6">
@@ -28,6 +29,7 @@ export default function Input({
           name={name}
           value={value}
         />
+        <p className="text-xs pt-2 text-center text-red-400 ">{errorMessage}</p>
       </div>
     </div>
   );

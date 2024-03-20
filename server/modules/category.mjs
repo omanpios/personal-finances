@@ -1,9 +1,13 @@
 import { PrismaClient } from "@prisma/client";
+import { isInvalidText } from "./common.mjs";
 
 const prisma = new PrismaClient();
 
 export async function createCategory(categoryName, userId) {
   const formattedName = categoryName.toLowerCase();
+  if (isInvalidText(categoryName)) {
+    return { message: "Invalid value submitted!" };
+  }
   return await prisma.category.create({
     data: {
       name: formattedName,
