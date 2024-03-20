@@ -9,6 +9,7 @@ import { UserContext } from "@/app/contexts/UserContext";
 export default function CategoryForm() {
   const [categoryName, setCategoryName] = useState("");
   const { userId } = useContext(UserContext);
+  const [errorMessage, setErrorMessage] = useState("");
 
   function handleOnChange(e) {
     const { value } = e.target;
@@ -16,10 +17,14 @@ export default function CategoryForm() {
   }
 
   async function submitCategory(e) {
-    await postData("http://localhost:8080/category", "POST", {
+    const response = await postData("http://localhost:8080/category", "POST", {
       name: categoryName,
       userId,
     });
+    const responseBody = await response.json();
+    if (responseBody.message) {
+      setErrorMessage(responseBody.message);
+    }
     setCategoryName("");
   }
 
@@ -35,6 +40,7 @@ export default function CategoryForm() {
         name="name"
         value={categoryName}
         onChange={handleOnChange}
+        errorMessage={errorMessage}
       />
       <Button label="Create Category" onClick={submitCategory} />
     </form>

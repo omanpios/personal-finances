@@ -10,6 +10,7 @@ export default function SubcategoryForm() {
   const { userId } = useContext(UserContext);
   const { categoryId } = useContext(CategoryContext);
   const [frequency, setFrequency] = useState("MONTHLY");
+  const [errorMessage, setErrorMessage] = useState("");
   const [subcategory, setSubcategory] = useState({
     name: "",
     amount: 0,
@@ -43,10 +44,10 @@ export default function SubcategoryForm() {
         frequency,
       }
     );
-    if (response.status === 400) {
+    if (response.status != 200) {
       const { error } = await response.json();
-      console.log(error);
-      alert(error);
+      console.error(error);
+      setErrorMessage(error);
     }
     setSubcategory({
       name: "",
@@ -66,6 +67,7 @@ export default function SubcategoryForm() {
         name="name"
         value={subcategory.name}
         onChange={handleOnChange}
+        errorMessage={errorMessage}
       />
       <Input
         label="Amount"

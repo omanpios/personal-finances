@@ -21,6 +21,7 @@ import {
   getTransactionsBySubcategoryId,
   getTransactionsByUserId,
 } from "./modules/transaction.mjs";
+import { isInvalidText } from "./modules/common.mjs";
 
 const app = express();
 const port = 8080;
@@ -109,9 +110,7 @@ app.post("/category", async (req, res) => {
     }
   } catch (error) {
     if (error.code === "P2002") {
-      res
-        .status(409)
-        .json({ message: `${name} category already exists for user` });
+      res.status(409).json({ message: `Category '${name}' already exists` });
     } else {
       console.error(error);
       res.sendStatus(500);
@@ -148,17 +147,21 @@ app.get("/user/:id/categories", async (req, res) => {
 app.post("/subcategory", async (req, res) => {
   const subcategory = req.body;
   try {
-    const response = await getSubcategory({
-      name: subcategory.name,
-      categoryId: subcategory.categoryId,
-    });
-    if (response === null) {
-      const newSubcategory = await createSubcategory(subcategory);
-      res.status(201).json(newSubcategory);
+    if (isInvalidText(subcategory.name)) {
+      res.status(400).json({ error: "Invalid value submitted!" });
     } else {
-      res
-        .status(400)
-        .json({ error: `Subcategory '${subcategory.name}' already exists` });
+      const response = await getSubcategory({
+        name: subcategory.name,
+        categoryId: subcategory.categoryId,
+      });
+      if (response === null) {
+        const newSubcategory = await createSubcategory(subcategory);
+        res.json(newSubcategory);
+      } else {
+        res
+          .status(400)
+          .json({ error: `Subcategory '${subcategory.name}' already exists` });
+      }
     }
   } catch (error) {
     console.error(error);
