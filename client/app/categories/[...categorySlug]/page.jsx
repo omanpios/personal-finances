@@ -34,25 +34,19 @@ export default function CategoryPage({ params }) {
     getBalance();
   }, []);
 
-  const percentage = (balance / totalProvision) * 100;
-
-  const style = {
-    width: `${percentage}%`,
-  };
-
   return (
     <>
       <header>
         <div className="flex flex-col items-center p-10">
           <h1 className="text-2xl font-semibold uppercase pb-5">{slug}</h1>
-          <h2>Provision: {currency.format(totalProvision)}</h2>
-          <h2>Current balance: {currency.format(balance)} </h2>
-          <div className="bg-gray-400 w-64 h-3 rounded-lg mt-2 overflow-hidden">
-            <div
-              className="bg-purple-500 h-full rounded-lg shadow-md"
-              style={style}
-            ></div>
-          </div>
+          <h2>
+            <span className="font-semibold">Provision:</span>{" "}
+            {currency.format(totalProvision)}
+          </h2>
+          <h2>
+            <span className="font-semibold">Current balance:</span>{" "}
+            {currency.format(balance)}{" "}
+          </h2>
         </div>
       </header>
       <main>
