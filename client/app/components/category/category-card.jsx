@@ -28,9 +28,6 @@ export default function CategoryCard({ categoryName, monthlyProvision, id }) {
             Monthly provision: {currency.format(monthlyProvision)}
           </p>
           <p className="text-gray-600">Balance: {currency.format(balance)}</p>
-          <div className="bg-gray-400 w-64 h-3 rounded-lg mt-2 overflow-hidden">
-            <div className="bg-purple-500 w-0 h-full rounded-lg shadow-md"></div>
-          </div>
         </div>
         <Link
           href={`/categories/${categoryName}`}

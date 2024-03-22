@@ -38,3 +38,15 @@ export async function getUserById(userId) {
   }
   return null;
 }
+
+export async function getProvisionByUserId(userId) {
+  const response = await prisma.subcategory.aggregate({
+    where: { userId: userId },
+    _sum: { monthlyProvision: true },
+  });
+  if (response._sum.monthlyProvision === null) {
+    return 0;
+  } else {
+    return response._sum.monthlyProvision;
+  }
+}

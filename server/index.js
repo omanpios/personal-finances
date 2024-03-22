@@ -3,7 +3,12 @@ import bodyParser from "body-parser";
 import bcrypt from "bcrypt";
 import cors from "cors";
 
-import { createUser, getUserByEmail, getUserById } from "./modules/user.mjs";
+import {
+  createUser,
+  getProvisionByUserId,
+  getUserByEmail,
+  getUserById,
+} from "./modules/user.mjs";
 import {
   createCategory,
   getBalanceByCategoryId,
@@ -138,6 +143,18 @@ app.get("/user/:id/categories", async (req, res) => {
       });
       res.json(categories);
     }
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+});
+
+app.get("/user/:id/monthlyProvision", async (req, res) => {
+  const { id } = req.params;
+  const formattedUserID = parseInt(id);
+  try {
+    const monthlyProvision = await getProvisionByUserId(formattedUserID);
+    res.json({ monthlyProvision });
   } catch (error) {
     console.error(error);
     res.sendStatus(500);
